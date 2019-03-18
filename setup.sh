@@ -118,4 +118,9 @@ if [ $val == '8' ]
     yum install -y -q golang
 fi
 
+echo "Updating GIT"
+yum -y -q remove git
+yum install  https://centos7.iuscommunity.org/ius-release.rpm
+yum install  git2u-all
+
 echo "Completed setup."
