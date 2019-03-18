@@ -71,7 +71,8 @@ select yn in "Yes" "No"; do
 done
 
 echo "Checking for any system updates"
-yum -y -q update
+rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+yum -y update
 
 let "val = $packages & 1"
 if [ $val == '1' ]
@@ -79,13 +80,14 @@ if [ $val == '1' ]
     echo "Installing GNOME"
     yum -y -q groupinstall "GNOME Desktop" "Graphical Administration Tools"
     ln -sf /lib/systemd/system/runlevel5.target /etc/systemd/system/default.target
-    rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
     echo "Installing VNC and RDP"
     yum -y -q install xrdp tigervnc-server
+    sleep 0.5
     systemctl start xrdp
     systemctl enable xrdp
     echo "Opening RDP port in firewall" 
     firewalld
+    sleep 0.5
     firewall-cmd --permanent --add-port=3389/tcp
     firewall-cmd --reload
     chcon --type=bin_t /usr/sbin/xrdp
