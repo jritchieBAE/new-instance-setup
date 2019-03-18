@@ -19,6 +19,19 @@ select yn in "Yes" "No"; do
     esac
 done
 
+echo "Perform first time setup? Choose option 1 or 2"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes )
+            let "packages = $packages + 32"
+            break
+            ;;
+        No )
+            break
+            ;;
+    esac
+done
+
 echo "Do you wish to install GNOME? Choose option 1 or 2"
 select yn in "Yes" "No"; do
     case $yn in
@@ -70,9 +83,30 @@ select yn in "Yes" "No"; do
     esac
 done
 
-echo "Checking for any system updates"
-rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-yum -y update
+echo "Do you wish to install Docker? Choose option 1 or 2"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes )
+            let "packages = $packages + 16"
+            break
+            ;;
+        No )
+            break
+            ;;
+    esac
+done
+
+let "val = $packages & 32"
+if [ $val == '32' ]
+    then
+    echo "Checking for any system updates"
+    rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    yum -y update
+    echo "Updating GIT"
+    yum -y -q remove git
+    yum install  https://centos7.iuscommunity.org/ius-release.rpm
+    yum install  git2u-all
+fi
 
 let "val = $packages & 1"
 if [ $val == '1' ]
@@ -118,9 +152,12 @@ if [ $val == '8' ]
     yum install -y -q golang
 fi
 
-echo "Updating GIT"
-yum -y -q remove git
-yum install  https://centos7.iuscommunity.org/ius-release.rpm
-yum install  git2u-all
+let "val = $packages & 16"
+if [ $val == '16' ]
+    then
+    echo "Installing Docker"
+    sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    sudo -y -q install docker-ce
+fi
 
 echo "Completed setup."
