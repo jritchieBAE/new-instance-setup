@@ -13,4 +13,7 @@ It installs
 ## Usage
 
 To use this script run this command
-``` git clone https://github.com/jritchieBAE/new-instance-setup.git && cd new-instance-setup && ./setup
+```bash  git clone https://github.com/jritchieBAE/new-instance-setup.git && chmod +x ./new-instance-setup/setup.sh && sudo ./new-instance-setup/setup.sh
+```
+
+It will then ask you a series of questions. Read carefully and press 1 if you want that and 2 to skip the process.
