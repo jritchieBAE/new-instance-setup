@@ -9,7 +9,7 @@ select yn in "Yes" "No"; do
         Yes)
             echo Enter your username
             read varname; useradd $varname
-            # passwd $varname
+            passwd $varname
             usermod -aG wheel $varname
             break
             ;;
