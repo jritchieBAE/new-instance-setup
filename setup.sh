@@ -96,12 +96,19 @@ select yn in "Yes" "No"; do
     esac
 done
 
-installerpath="/srv/installers.sh"
-cp "./installers.sh" $installerpath
-sudo chmod +x $installerpath
+if [ -z "$varname"]
+then
+    sudo ./installers.sh $packages
+else
+    installerpath="/srv/installers.sh"
+    cp "./installers.sh" $installerpath
+    sudo chmod +x $installerpath
 
-sudo -u $varname sudo $installerpath $packages
+    sudo -u $varname sudo $installerpath $packages
 
-rm $installerpath
+    rm $installerpath
+fi
+
+
 
 echo "Completed setup."
