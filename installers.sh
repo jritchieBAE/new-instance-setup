@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# take the command line parameter and store it as an in in $packages
+# take the command line parameter and store it as an int in $packages
 printf -v packages '%d\n' $* 2>/dev/null
 
 let "val = $packages & 32"
@@ -8,11 +8,11 @@ if [ $val == '32' ]
     then
     echo "Checking for any system updates"
     rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-    yum -y update
+    yum -y -q update
     echo "Updating GIT"
     yum -y -q remove git
-    yum install  https://centos7.iuscommunity.org/ius-release.rpm
-    yum install  git2u-all
+    yum install -y -q https://centos7.iuscommunity.org/ius-release.rpm
+    yum install -y -q git2u-all
 fi
 
 let "val = $packages & 1"
