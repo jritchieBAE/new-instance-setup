@@ -63,6 +63,6 @@ let "val = $packages & 16"
 if [ $val == '16' ]
     then
     echo "Installing Docker"
-    sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-    sudo -y -q install docker-ce
+    yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    yum install -y -q docker-ce
 fi
